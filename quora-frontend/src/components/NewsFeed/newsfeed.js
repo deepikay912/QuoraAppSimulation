@@ -24,7 +24,6 @@ class newsfeed extends Component {
                         <News/>
                     </div>
                     <div class="col-md-3">
-                    3 of 3
                     </div>
                 </div>
             

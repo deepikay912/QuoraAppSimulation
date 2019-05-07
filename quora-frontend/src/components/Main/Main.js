@@ -7,6 +7,7 @@ import newsfeed from '../NewsFeed/newsfeed'
 import News from '../news/News'
 import answer from '../Answers/answers'
 import contentHome from '../Content/contentHome'
+import Bookmarkpage from '../BookMarkPage/BookMarkPage'
 
 import Model from '../Modal/Model'
 //import profile from '../Header/Header';

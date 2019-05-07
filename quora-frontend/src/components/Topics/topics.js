@@ -70,7 +70,7 @@ topic = (e) => {
 
                         {topics}
    
- 
+                        <button><a href="/bookmarks">Bookmarked Answers</a></button>
   
                        
                           

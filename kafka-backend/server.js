@@ -43,6 +43,8 @@ var searchTopic = require('./services/searchTopic')
 var createTopic = require('./services/createTopic');
 var upvoteAnswer = require('./services/upvoteAnswers')
 var downvoteAnswer = require('./services/downvoteAnswer')
+var addcomment = require('./services/addcomment')
+var bookmarkanswers = require('./services/bookmarkanswers')
 
 
 function handleTopicRequest(topic_name,fname){
@@ -86,7 +88,7 @@ handleTopicRequest("get-profile",getProfile)
 handleTopicRequest("get-answers",getAnswers) 
 handleTopicRequest("create-question",createQuestion) 
   handleTopicRequest("signup",signup)
-  handleTopicRequest("get-profile",getProfile)
+ handleTopicRequest("get-profile",getProfile)
 handleTopicRequest("update-profile",profile)
   handleTopicRequest("get-questions",getAllQuestions)
   handleTopicRequest("create-topic", createTopic);
@@ -108,26 +110,28 @@ handleTopicRequest("update-profile",profile)
 handleTopicRequest('get_activity',getActivity)
 handleTopicRequest("search-question",searchQuestion)
 handleTopicRequest("search-topic",searchTopic) 
+handleTopicRequest("bookmark-answers",bookmarkanswers) 
 
 
 
 
-// handleTopicRequest("get_following",following)
-// handleTopicRequest("user_answers",userAnswers);
-// handleTopicRequest("user_questions",userQuestions)
-// handleTopicRequest("user_bookmarks",userBookmarks)
-// handleTopicRequest("update_answer",updateAnswer)
-// handleTopicRequest("downvoteAnswer", downvoteAnswer)
+
+handleTopicRequest("get_following",following)
+handleTopicRequest("user_answers",userAnswers);
+handleTopicRequest("user_questions",userQuestions)
+handleTopicRequest("user_bookmarks",userBookmarks)
+handleTopicRequest("update_answer",updateAnswer)
+handleTopicRequest("downvoteAnswer", downvoteAnswer)
+handleTopicRequest("add-comments", addcomment)
 
 
 
-//  handleTopicRequest("followTopic",FollowTopic)
-// handleTopicRequest("followUser",FollowUser)
-// handleTopicRequest("sendMessage",SendMessage)
-// handleTopicRequest("getFollowers",GetFollowers)
-// handleTopicRequest("getMessage",GetMessage)
-// handleTopicRequest("getConversation",GetConversation)   
-
+ handleTopicRequest("followTopic",FollowTopic)
+handleTopicRequest("followUser",FollowUser)
+handleTopicRequest("sendMessage",SendMessage)
+handleTopicRequest("getFollowers",GetFollowers)
+handleTopicRequest("getMessage",GetMessage)
+handleTopicRequest("getConversation",GetConversation)   
 
 
 
