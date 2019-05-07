@@ -13,11 +13,16 @@ function handle_request(message,callback)
             
             if(user)
             {
+
+
+            
                 console.log("user:",user)
                 Model.AnswerModel.findOne({"_id":message.body.answerid},
                         (err,answer)=>{
                             if(answer)
                             {
+                                answer.bookmarks = answer.bookmarks + 1;
+                                answer.save();
                                 user.AnswersBookmarked = user.AnswersBookmarked || []
                                 console.log("user.bookmarkedanswers:",user.AnswersBookmarked)
                                 console.log("answer:",answer)
