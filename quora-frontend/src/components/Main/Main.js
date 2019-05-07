@@ -79,6 +79,8 @@ class Main extends Component {
                 <Route exact path="/deleteAccount" component = {deleteAccount} />
         {/* <Route path="/newsfeed/topic" component={topic} />  */}
                 <Route path="/newsfeed/topic" component={topic} />
+                <Route path="/bookmarks" component={Bookmarkpage}/>
+
                 </div>
 
                 </BrowserRouter>  
