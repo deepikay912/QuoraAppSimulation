@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 
 import axios from 'axios';
 import "./Inbox.css";
-import Header from '../Header/Header'
+import Header from '../Header/Header';
+import {Redirect} from 'react-router';
 
 var Element = Scroll.Element;
 
@@ -76,6 +77,11 @@ export default class NewMessage extends Component {
     }
 
   render() {
+    var redirectVar = null;
+    if(!localStorage.getItem('token')){
+      redirectVar = <Redirect to="/" />
+      return redirectVar;        
+     }
       let threads =[];
       Object.assign(threads, this.state.threads);
     return (

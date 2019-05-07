@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import Select from 'react-select'
 import {Link} from 'react-router-dom';
-import './Search.css'
+import './Search.css';
+import {Redirect} from 'react-router';
 
 
 class Search extends Component {
@@ -37,6 +38,11 @@ class Search extends Component {
     }
     
     render() { 
+        var redirectVar = null;
+  if(!localStorage.getItem('token')){
+    redirectVar = <Redirect to="/" />
+    return redirectVar;        
+   }
         return ( 
             <div>
 

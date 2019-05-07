@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import {Redirect} from 'react-router';
 
 import '../news/News.css'
 class UserQuestions extends Component {
@@ -35,6 +36,11 @@ class UserQuestions extends Component {
      console.log(item)
  }
     render() { 
+        var redirectVar = null;
+  if(!localStorage.getItem('token')){
+    redirectVar = <Redirect to="/" />
+    return redirectVar;        
+   }
         let displayCards = this.state.news.map((question)=>{
             if(question && question.Answers) {
             if(question.Answers.length>0)

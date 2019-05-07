@@ -7,12 +7,14 @@ import newsfeed from '../NewsFeed/newsfeed'
 import News from '../news/News'
 import answer from '../Answers/answers'
 import contentHome from '../Content/contentHome'
+import Bookmarkpage from '../BookMarkPage/BookMarkPage'
 
 import Model from '../Modal/Model'
 //import profile from '../Header/Header';
 
 import frame from '../Frame/frame';
 import signUp from '../SignUp/signUp';
+import {Redirect} from 'react-router';
 
 
 //import profileFollowers from '../Profile/UserFollowers';
@@ -40,9 +42,10 @@ import notifications from '../Notifications/notifications';
 class Main extends Component {
     render(){
         return(
-            <BrowserRouter>
-            <div>
-                {/*Render Different Component based on Route*/}
+        <BrowserRouter>
+        
+        <div>
+                 {/*Render Different Component based on Route*/}
                 
                 <Route path='/signUp' exact component={signUp}/> 
                 <Route path="/profile" exact component={profile}/>
@@ -76,11 +79,15 @@ class Main extends Component {
                 <Route exact path="/deleteAccount" component = {deleteAccount} />
         {/* <Route path="/newsfeed/topic" component={topic} />  */}
                 <Route path="/newsfeed/topic" component={topic} />
+                <Route path="/bookmarks" component={Bookmarkpage}/>
 
-                 
-            </div>
-            </BrowserRouter>
-        )
+                </div>
+
+                </BrowserRouter>  
+        )  
+            
+           
+        
     }
 }
 //Export The Main Component

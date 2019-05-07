@@ -12,6 +12,7 @@ import Topic from '../Content/topic.js'
 
 
 
+
 //create the Navbar Component
 class ContentHome extends Component {
     constructor(props){
@@ -267,6 +268,11 @@ return (
 
 
     render(){
+        var redirectVar = null;
+  if(!localStorage.getItem('token')){
+    redirectVar = <Redirect to="/" />
+    return redirectVar;        
+   }
     
         return(
             <div>

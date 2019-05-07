@@ -85,11 +85,16 @@ onSubmit(values) {
      }
  
 render(){
-  let redrirectVar = null;        
+  var redirectVar = null;
+  if(!localStorage.getItem('token')){
+    redirectVar = <Redirect to="/" />
+    return redirectVar;        
+   }
+     
 
       if (this.props.loginStateStore.result) {
           if(this.props.loginStateStore.result.isAuthenticated === true){
-              redrirectVar = <Redirect to="/newsfeed" />
+              redirectVar = <Redirect to="/newsfeed" />
           }
           
       }
@@ -119,7 +124,7 @@ render(){
 
     return(
     <div>
-    {redrirectVar}
+    {redirectVar}
     {errorPanel}
     {formErrorPanel}
       <div class="row">  

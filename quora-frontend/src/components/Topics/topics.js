@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 import './topics.css'
 import topic1 from '../../images/topic.png'
 
-
+import {Redirect} from 'react-router';
 
 class Topics extends Component {
     
@@ -45,6 +45,11 @@ topic = (e) => {
 }
 
     render() { 
+      var redirectVar = null;
+  if(!localStorage.getItem('token')){
+    redirectVar = <Redirect to="/" />
+    return redirectVar;        
+   }
 
         let topics = this.state.topics.map((topic) => {
             return(
@@ -65,7 +70,7 @@ topic = (e) => {
 
                         {topics}
    
- 
+                        <button><a href="/bookmarks">Bookmarked Answers</a></button>
   
                        
                           

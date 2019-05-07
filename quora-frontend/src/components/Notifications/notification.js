@@ -15,7 +15,8 @@ import {Link} from 'react-router-dom';
 import './notification.css'
 import {rooturl} from '../../config/settings';
 import axios from 'axios';
-import follow from '../../images/follow.png'
+import follow from '../../images/follow.png';
+import {Redirect} from 'react-router';
 
 const styles = theme => ({
   root: {
@@ -71,6 +72,11 @@ class Notifications extends React.Component {
   };
 
   render() {
+    var redirectVar = null;
+  if(!localStorage.getItem('token')){
+    redirectVar = <Redirect to="/" />
+    return redirectVar;        
+   }
     const { classes } = this.props;
     const { open } = this.state;
     var options = { month: 'long', day: 'numeric' };

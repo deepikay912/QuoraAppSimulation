@@ -169,6 +169,11 @@ componentWillMount()
 
 
   render(){
+    var redirectVar = null;
+  if(!localStorage.getItem('token')){
+    redirectVar = <Redirect to="/" />
+    return redirectVar;        
+   }
     let warning =  null
     if(this.state.validZipcode === false)
     {

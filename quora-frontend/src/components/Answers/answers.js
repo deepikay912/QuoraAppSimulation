@@ -3,6 +3,9 @@ import axios from 'axios';
 import Header from '../Header/Header'
 import '../Answers/answers.css'
 import { Redirect } from 'react-router'
+import { ROOT_URL } from '../../config/URLsettings';
+import {Modal,Button} from 'react-bootstrap'
+
 
 class answer extends Component {
     constructor(props)
@@ -23,7 +26,13 @@ class answer extends Component {
             img0: '',
             img1: '',
             img2: '',
-            img3 : ''
+            img3 : '',
+            editAnswer:0,
+            answeridedited:0,
+            editAnswerText :'',
+            FollowLabel:'Follow',
+            Email:localStorage.getItem('email'),		
+            comment : []
         }
         console.log("Props"+JSON.stringify(props.location.state.questionid))
     }
@@ -37,7 +46,7 @@ class answer extends Component {
     {
         console.log("Inside component did mount"+this.state.questionId)
         console.log("Question ID"+this.state.questionId)
-        var url = `http://localhost:4000/getAnswers/`+this.state.questionId
+        var url = `${ROOT_URL}/getAnswers/`+this.state.questionId
         console.log(url)  
         axios.get(url).
         then(response => {
@@ -72,7 +81,7 @@ class answer extends Component {
             "answerid":answerid,
             "questionid":this.state.questionId
             }
-        axios.post('http://localhost:4000/upvoteAnswer',data)
+        axios.post(`${ROOT_URL}/upvoteAnswer`,data)
         .then(res=>
             {
                 console.log("Success"+res)
@@ -122,7 +131,7 @@ class answer extends Component {
         data.append('selectedFile', this.state.selectedFile)
         console.log('Selected File'+this.state.selectedFile)
         var num = Math.floor((Math.random() * 1000) + 1);        
-        axios.post('http://localhost:4000/addpicforanswer/'+num,data)
+        axios.post(`${ROOT_URL}/addpicforanswer/`+num,data)
         .then(res=>{
             console.log("Upload successfully")
             this.setState({imageId:num})
@@ -136,14 +145,16 @@ class answer extends Component {
         {
             var data={
                 "answer" : this.state.answer,
-                "owner" : "Shivani@gmail.com",
+                "owner" : localStorage.getItem("email"),
                 "isAnonymous":1,
-                "date":"05-05-2019",
+                "date":"07-05-2019",
                 "question":this.state.question,
-                
+                "question_id":this.state.questionId
             }
+            console.log("Data Until Now"+data)
+
             console.log("In anonymous block")
-            axios.post('http://localhost:4000/writeAnswer/',data)
+            axios.post(`${ROOT_URL}/writeAnswer/`,data)
             .then(response=>{
                 console.log("Wrote an Answer Successfully")
                 this.setState({redirectToMyAnswersPage:true})
@@ -156,13 +167,14 @@ class answer extends Component {
         {
             var data={
                 "answer" : this.state.answer,
-                "owner" : "Shivani@gmail.com",
+                "owner" : localStorage.getItem("email"),
                 "isAnonymous":0,
-                "date":"05-05-2019",
+                "date":"07-05-2019",
                 "question":this.state.question,
                 
             }
-            axios.post('http://localhost:4000/writeAnswer/',data)
+            console.log("Data Until Now"+data)
+            axios.post(`${ROOT_URL}/writeAnswer/`,data)
             .then(response=>{
                 console.log("Wrote an Answer Successfully")
                 this.setState({redirectToMyAnswersPage:true})
@@ -170,10 +182,7 @@ class answer extends Component {
             .catch(response=>{
                 console.log("Exception")
             })
-        }
- 
-       // this.setState({showAnswerDialog:false})
-        
+        }        
     }
 
     handleClose = (e) =>{
@@ -194,6 +203,10 @@ class answer extends Component {
           this.setState({showAnswerDialog:true})
 
       }
+      editAnswer=(event,answerid)=>{
+      this.setState({editAnswer:1})
+      this.setState({answeridedited:answerid})
+    }
       renderAnswer=(data,index)=>{
          if(data[0].img.data[0]!=0)
          {
@@ -201,16 +214,117 @@ class answer extends Component {
             var base64Flag = 'data:image/jpeg;base64,';
 
          }
-          
-        //  var imageStr = this.arrayBufferToBase64(data[0].img.data.data);
-        //  console.log("Image String"+imageStr)
-        //  console.log("index"+index)
-        //  var left = 'img'+index;
-         //console.log(left+imageStr)
-         //this.setState({left:base64Flag+imageStr})
-//return(<img src={this.state.img}/>)
       }
+      handleCloseofEditAnswer=(e)=>{
+        this.setState({editAnswer:0})
+    }
+    updateAnswer=(e)=>{
+        console.log("Update Answer")
+        //give in data
+        // var data={
+        //     'Email':this.state.Email,
+        //     'question_id' : this.state.questionId,
+        //      answerid : 
+        //     text: 
+        // }
+        // axios.post("http://localhost:4000/updateAnswer",data)
+        // .then(res=>console.log(res))
+        // .catch(err=>console.log(err))
+        this.setState({ editAnswer: 0 });
+    window.location.reload();
+     
+    }
+    textforEditAnswer=(e)=>{
+        this.setState({editAnswerText:e.target.value})
+        console.log(e.target.value)
+    }
+
+    followQuestion=(e)=>{
+        var data={
+            "Email":localStorage.getItem("email"),
+            "question":this.state.question
+        }
+        axios.post( ROOT_URL + '/followQuestion',data)
+        .then(res=>{console.log(res)
+      this.setState({"FollowLabel":"Followed"})
+      })
+        .catch(err=>console.log(err))
+    }
+
+    addcomment=(e)=>{
+        this.setState({
+            comment : e.target.value
+        
+        })
+        console.log(this.state.comment)
+    }
+
+    handleaddcomment= (event) =>{
+        console.log("buttonclicked")
+        console.log(event)
+    
+       
+        var url=  ROOT_URL + '/addcomments'
+        var data = {
+         "answerid" : event, 
+         "email": this.state.Email,
+         "comment":this.state.comment
+        }
+        console.log(url)
+        console.log("data:",data)
+        
+         axios.post(url,data)
+         .then(response => {
+             console.log("got response:",response)
+             var newResult = this.state.results;
+
+             for(var i=0;i<newResult.length;++i){
+                 if(newResult[i]._id==event){
+                     console.log("Here in the id")
+                     newResult[i]["comment"].push({username:"Shivani",comment:this.state.comment})
+                 }
+             }
+             console.log("After the find ")
+             console.log(newResult)
+             this.setState({
+                 results : newResult
+             })
+
+            //  window.location.href=window.location.href
+         })
+         .catch(response => {
+            // console.log(response.toString())
+         })
+    
+    
+    }	
+    bookmark=(event)=>{
+        console.log("Bookmarkclicked")
+        console.log(event)
+    
+        var data = {
+            "answerid" : event, 
+            "Email": this.state.Email
+        }
+        var url=  ROOT_URL + '/bookmarkanswers'
+        axios.post(url,data)
+         .then(response => {
+             console.log("got response:",response)
+         })
+         .catch(response => {
+            // console.log(response.toString())
+         })
+
+    }
+     
     render() { 
+        var redirectVar = null;
+  if(!localStorage.getItem('token')){
+    redirectVar = <Redirect to="/" />
+    return redirectVar;        
+   }
+       
+       
         let redirectvar = null
         if(this.state.redirectToMyAnswersPage === true)
             redirectvar = <Redirect to="/newsfeed" />
@@ -254,9 +368,41 @@ class answer extends Component {
                         <label class="ml-1">6</label>
                         
                         <button class="ml-3 transButton" style={{"font-size":"15px","float":"right"}}><label class="QuoraLabels"><b>Downvote</b></label> <i class="fa fa-arrow-circle-down"></i></button>
-                        <button class="transButton" style={{"float":"right"}}><i class="fas fa-ellipsis-h ml-3" ></i></button>
+                        
+                        <button class="transButton" style={{"float":"right"}} onClick={e=>{this.editAnswer(e,answer._id)}} data-id={answer._id}
+                        
+                        >Edit Answer</button>
+                        <Modal show={this.state.editAnswer} onHide={this.handleCloseofEditAnswer}>
+                        <Modal.Header closeButton>
+                          <Modal.Title style={{"color":"#b92b27","font-weight":500,"font-family":"Helvetica Neue,Helvetica,Arial,sans-serif","font-size": "15px"}}>Edit your Answer</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <input type="text" placeholder="Edit your answer" onChange={this.textforEditAnswer}></input>
+                          
+                        </Modal.Body>
+                       
+                        <Modal.Footer>
+                          <Button variant="primary" onClick={this.updateAnswer}>Update</Button>
+                          <Button variant="secondary" onClick={this.handleCloseofEditAnswer}>
+                            Cancel
+                          </Button>
+                          
+                        </Modal.Footer>
+                      </Modal>
+                      <button class="ml-2 btn-primary" onClick ={()=>this.bookmark(answer._id)} >Bookmark</button>
+                        
                         <div class='card-header'>
-                            <input type="text" style={{"width":"800px"}} placeholder="Add comment"/>
+                          {/*  <input type="text" style={{"width":"800px"}} placeholder="Add comment"/>*/}
+                          <input type="text" style={{"width":"800px"}} placeholder="Add comment" onChange={this.addcomment}/>		  
+                                    <button class="btn btn-info" value={answer._id} onClick={()=>this.handleaddcomment(answer._id)} >Add Comment</button>		    
+                                <h6><strong>Previous Comments</strong></h6>	
+                                {
+                                answer.comments===undefined?console.log("Yes"):  answer.comments.map(item => {		
+                                    return      <p><strong>{item["username"]}</strong> : {item["comment"]}</p>		
+                                    })
+                                // console.log("Length of answers.comments"+answer.comments)
+                                }	
+                               
     
                         </div>
                         
@@ -272,7 +418,7 @@ class answer extends Component {
 
         let answerbar = <div class="container mt-0" ref={this.container}>
             <button class="transButton ml-3" onClick={this.writeAnswer}>Answer</button>
-            <button class="transButton ml-3">Follow</button>
+            <button class="transButton ml-3" onClick={this.followQuestion}>{this.state.FollowLabel}</button>
             <button class="transButton ml-3">Request</button>
             <button class="transButton" style={{"float":"right"}} onClick={this.handleButtonClick} name="ellipsis"><i class="fas fa-ellipsis-h ml-3" ></i></button>
             {this.state.open && (

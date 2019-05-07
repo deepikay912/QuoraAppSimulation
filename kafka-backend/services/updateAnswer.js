@@ -7,7 +7,7 @@ function handle_request(message,callback){
         'QuestionAnswered' :  {
         $elemMatch : {
             'question_id' : message.body.question_id,
-            'answer_id' : message.body.answer_id
+            '_id' : message.body.answer_id
         }
     }
 
@@ -21,13 +21,14 @@ function handle_request(message,callback){
         else
         {
         console.log("The user is"+user)
+        
 
         var set = {
             answer : req.answer,
             date : req.date
         }
 
-        const answer = user.QuestionAnswered.id(answer_id); 
+        const answer = user.QuestionsAnswered.id(message.body.answer_id); 
         answer.set(set);
 
         

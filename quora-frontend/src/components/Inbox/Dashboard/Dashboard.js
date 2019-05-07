@@ -5,6 +5,7 @@ import  CanvasJSReact from '../../canvasjs/canvasjs.react';
 import {rooturl} from '../../config/settings';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import {Redirect} from 'react-router';
 
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -49,6 +50,11 @@ class Dashboard extends Component {
     }
 
     render() { 
+        var redirectVar = null;
+  if(!localStorage.getItem('token')){
+    redirectVar = <Redirect to="/" />
+    return redirectVar;        
+   }
 
     console.log("graph3");
 

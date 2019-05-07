@@ -4,6 +4,7 @@ import { ROOT_URL } from '../../config/URLsettings';
 import axios from 'axios';
 import Header from '../Header/Header';
 import UserQuestions  from './UserQuestions';
+import {Redirect} from 'react-router';
 
 export default class ProfileFollowing extends Component {
     constructor(props){
@@ -158,7 +159,11 @@ export default class ProfileFollowing extends Component {
     
 
     render() {
-
+      var redirectVar = null;
+      if(!localStorage.getItem('token')){
+        redirectVar = <Redirect to="/" />
+        return redirectVar;        
+       }
       let topics = [];
       Object.assign(topics, this.state.Topics);
       let topicDetails = topics.map((topic,index)=>{

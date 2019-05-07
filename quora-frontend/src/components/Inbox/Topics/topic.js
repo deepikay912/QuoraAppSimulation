@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Header from '../Header/Header'
 import News from '../news/News'
 import Topics from '../Topics/topics'
-import topic1 from '../../images/topic.png'
+import topic1 from '../../images/topic.png';
+import {Redirect} from 'react-router';
 
 class Topic extends Component {
       
@@ -17,6 +18,11 @@ class Topic extends Component {
 }
 
     render() { 
+        var redirectVar = null;
+  if(!localStorage.getItem('token')){
+    redirectVar = <Redirect to="/" />
+    return redirectVar;        
+   }
 
         let questions = this.state.questions.map((q) => {
             return (

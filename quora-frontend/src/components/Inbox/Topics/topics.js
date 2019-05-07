@@ -5,7 +5,8 @@ import {rooturl} from '../../config/settings';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import './topics.css'
-import topic1 from '../../images/topic.png'
+import topic1 from '../../images/topic.png';
+import {Redirect} from 'react-router';
 
 
 
@@ -45,6 +46,11 @@ topic = (e) => {
 }
 
     render() { 
+      var redirectVar = null;
+  if(!localStorage.getItem('token')){
+    redirectVar = <Redirect to="/" />
+    return redirectVar;        
+   }
 
         let topics = this.state.topics.map((topic) => {
             return(
