@@ -3,8 +3,9 @@ import axios from 'axios';
 import Header from '../Header/Header'
 import '../Answers/answers.css'
 import { Redirect } from 'react-router'
-import { ROOT_URL } from '../../config/URLsettings';
 import {Modal,Button} from 'react-bootstrap'
+import { ROOT_URL } from '../../config/URLsettings';
+
 
 
 class answer extends Component {
@@ -31,7 +32,7 @@ class answer extends Component {
             answeridedited:0,
             editAnswerText :'',
             FollowLabel:'Follow',
-            Email:localStorage.getItem('email'),		
+            Email:localStorage.getItem('email'),        
             comment : []
         }
         console.log("Props"+JSON.stringify(props.location.state.questionid))
@@ -81,7 +82,7 @@ class answer extends Component {
             "answerid":answerid,
             "questionid":this.state.questionId
             }
-        axios.post(`${ROOT_URL}/upvoteAnswer`,data)
+        axios.post('${ROOT_URL}/upvoteAnswer',data)
         .then(res=>
             {
                 console.log("Success"+res)
@@ -131,7 +132,7 @@ class answer extends Component {
         data.append('selectedFile', this.state.selectedFile)
         console.log('Selected File'+this.state.selectedFile)
         var num = Math.floor((Math.random() * 1000) + 1);        
-        axios.post(`${ROOT_URL}/addpicforanswer/`+num,data)
+        axios.post(ROOT_URL + '/addpicforanswer/'+num,data)
         .then(res=>{
             console.log("Upload successfully")
             this.setState({imageId:num})
@@ -147,14 +148,12 @@ class answer extends Component {
                 "answer" : this.state.answer,
                 "owner" : localStorage.getItem("email"),
                 "isAnonymous":1,
-                "date":"07-05-2019",
+                "date":"05-05-2019",
                 "question":this.state.question,
-                "question_id":this.state.questionId
+                
             }
-            console.log("Data Until Now"+data)
-
             console.log("In anonymous block")
-            axios.post(`${ROOT_URL}/writeAnswer/`,data)
+            axios.post( ROOT_URL + '/writeAnswer/',data)
             .then(response=>{
                 console.log("Wrote an Answer Successfully")
                 this.setState({redirectToMyAnswersPage:true})
@@ -169,12 +168,11 @@ class answer extends Component {
                 "answer" : this.state.answer,
                 "owner" : localStorage.getItem("email"),
                 "isAnonymous":0,
-                "date":"07-05-2019",
+                "date":"05-05-2019",
                 "question":this.state.question,
                 
             }
-            console.log("Data Until Now"+data)
-            axios.post(`${ROOT_URL}/writeAnswer/`,data)
+            axios.post( ROOT_URL + '/writeAnswer/',data)
             .then(response=>{
                 console.log("Wrote an Answer Successfully")
                 this.setState({redirectToMyAnswersPage:true})
@@ -182,7 +180,10 @@ class answer extends Component {
             .catch(response=>{
                 console.log("Exception")
             })
-        }        
+        }
+ 
+       // this.setState({showAnswerDialog:false})
+        
     }
 
     handleClose = (e) =>{
@@ -204,9 +205,18 @@ class answer extends Component {
 
       }
       editAnswer=(event,answerid)=>{
-      this.setState({editAnswer:1})
-      this.setState({answeridedited:answerid})
-    }
+          //console.log("Edit Answer"+JSON.stringify(e.target.id))
+        //   if(event.currentTarget.dataset.id==answerid)
+        //   {
+        //       //console.log("clicked"+questionid)
+        //       console.log("Edit Away"+event.currentTarget.dataset.id)
+
+        //     //  this.setState({"editAnswer":1})
+
+        //   }
+        this.setState({editAnswer:1})
+        this.setState({answeridedited:answerid})
+      }
       renderAnswer=(data,index)=>{
          if(data[0].img.data[0]!=0)
          {
@@ -214,52 +224,59 @@ class answer extends Component {
             var base64Flag = 'data:image/jpeg;base64,';
 
          }
+          
+        //  var imageStr = this.arrayBufferToBase64(data[0].img.data.data);
+        //  console.log("Image String"+imageStr)
+        //  console.log("index"+index)
+        //  var left = 'img'+index;
+         //console.log(left+imageStr)
+         //this.setState({left:base64Flag+imageStr})
+//return(<img src={this.state.img}/>)
       }
       handleCloseofEditAnswer=(e)=>{
-        this.setState({editAnswer:0})
-    }
-    updateAnswer=(e)=>{
-        console.log("Update Answer")
-        //give in data
-        // var data={
-        //     'Email':this.state.Email,
-        //     'question_id' : this.state.questionId,
-        //      answerid : 
-        //     text: 
-        // }
-        // axios.post("http://localhost:4000/updateAnswer",data)
-        // .then(res=>console.log(res))
-        // .catch(err=>console.log(err))
-        this.setState({ editAnswer: 0 });
-    window.location.reload();
-     
-    }
-    textforEditAnswer=(e)=>{
-        this.setState({editAnswerText:e.target.value})
-        console.log(e.target.value)
-    }
+          this.setState({editAnswer:0})
+      }
+      updateAnswer=(e)=>{
+          console.log("Update Answer")
+          //give in data
+        //   var data={
+        //       questionId : 
+        //answerid
+        //text: 
+        //   }
+        //   axios.post("http://localhost:4000/updateAnswer",data)
+        //   .then(res=>console.log(res))
+        //   .catch(err=>console.log(err))
 
-    followQuestion=(e)=>{
-        var data={
-            "Email":localStorage.getItem("email"),
-            "question":this.state.question
-        }
-        axios.post( ROOT_URL + '/followQuestion',data)
-        .then(res=>{console.log(res)
-      this.setState({"FollowLabel":"Followed"})
-      })
-        .catch(err=>console.log(err))
-    }
+          this.setState({ editAnswer: 0 });
+      window.location.reload();
+       
+      }
+      textforEditAnswer=(e)=>{
+          this.setState({editAnswerText:e.target.value})
+          console.log(e.target.value)
+      }
+      followQuestion=(e)=>{
+          var data={
+              "Email":localStorage.getItem("email"),
+              "question":this.state.question
+          }
+          axios.post( ROOT_URL + '/followQuestion',data)
+          .then(res=>{console.log(res)
+        this.setState({"FollowLabel":"Followed"})
+        })
+          .catch(err=>console.log(err))
+      }
 
-    addcomment=(e)=>{
+
+      addcomment=(e)=>{
         this.setState({
             comment : e.target.value
         
         })
         console.log(this.state.comment)
-    }
-
-    handleaddcomment= (event) =>{
+        }
+      handleaddcomment= (event) =>{
         console.log("buttonclicked")
         console.log(event)
     
@@ -297,7 +314,7 @@ class answer extends Component {
          })
     
     
-    }	
+    }
     bookmark=(event)=>{
         console.log("Bookmarkclicked")
         console.log(event)
@@ -317,14 +334,8 @@ class answer extends Component {
 
     }
      
+      
     render() { 
-        var redirectVar = null;
-  if(!localStorage.getItem('token')){
-    redirectVar = <Redirect to="/" />
-    return redirectVar;        
-   }
-       
-       
         let redirectvar = null
         if(this.state.redirectToMyAnswersPage === true)
             redirectvar = <Redirect to="/newsfeed" />
@@ -355,6 +366,7 @@ class answer extends Component {
                             <img class="pic ml-3" src="https://cdn2.stylecraze.com/wp-content/uploads/2013/07/10-Pictures-Of-Katy-Perry-Without-Makeup.jpg"/>
                             <p class="ml-2">{answer.owner}</p>
                         </div>
+                        
                         <p style={{"backgroundColor":"bg-light"}}>{answer.answer}</p>
                         {/*this.renderAnswer(answer.images,index)*/}
                         <div>
@@ -368,7 +380,6 @@ class answer extends Component {
                         <label class="ml-1">6</label>
                         
                         <button class="ml-3 transButton" style={{"font-size":"15px","float":"right"}}><label class="QuoraLabels"><b>Downvote</b></label> <i class="fa fa-arrow-circle-down"></i></button>
-                        
                         <button class="transButton" style={{"float":"right"}} onClick={e=>{this.editAnswer(e,answer._id)}} data-id={answer._id}
                         
                         >Edit Answer</button>
@@ -393,15 +404,16 @@ class answer extends Component {
                         
                         <div class='card-header'>
                           {/*  <input type="text" style={{"width":"800px"}} placeholder="Add comment"/>*/}
-                          <input type="text" style={{"width":"800px"}} placeholder="Add comment" onChange={this.addcomment}/>		  
-                                    <button class="btn btn-info" value={answer._id} onClick={()=>this.handleaddcomment(answer._id)} >Add Comment</button>		    
-                                <h6><strong>Previous Comments</strong></h6>	
+                          <input type="text" style={{"width":"800px"}} placeholder="Add comment" onChange={this.addcomment}/>         
+                           <input type="text" style={{"width":"800px"}} placeholder="Add comment"/>
+                                    <button class="btn btn-info" value={answer._id} onClick={()=>this.handleaddcomment(answer._id)} >Add Comment</button>           
+                                <h6><strong>Previous Comments</strong></h6> 
                                 {
-                                answer.comments===undefined?console.log("Yes"):  answer.comments.map(item => {		
-                                    return      <p><strong>{item["username"]}</strong> : {item["comment"]}</p>		
+                                answer.comments===undefined?console.log("Yes"):  answer.comments.map(item => {      
+                                    return      <p><strong>{item["username"]}</strong> : {item["comment"]}</p>      
                                     })
                                 // console.log("Length of answers.comments"+answer.comments)
-                                }	
+                                }   
                                
     
                         </div>
