@@ -50,6 +50,9 @@ function handle_request(message, callback){
                 //    console.log("email" + email);
 
                         Model.UserModel.findOne({"Email": question.Followers[i]},(err,user) => {
+                            console.log("in followers");
+                            console.log(question.Followers[i]);
+
                             if(user) {
                             var notification = {
                                 answerOwner : message.body.owner,

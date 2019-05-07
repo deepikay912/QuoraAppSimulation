@@ -76,7 +76,7 @@ class notifications extends Component {
             <div>
             <p class="color" >
             &nbsp; &nbsp;<i class="fa fa-user fa-lg" aria-hidden="true"></i>
-           <b> &nbsp;  {notification.answerOwner} </b> &nbsp; answered : <Link class ="link" to ='/question'>  {notification.question} &nbsp; </Link> 
+           <b> &nbsp;  {notification.answerOwner} </b> &nbsp; answered : <Link class ="link" to ={{pathname : "/answers",state :{'questionid':notification.question._id}}}>  {notification.question.Question} &nbsp; </Link> 
             {new Date(notification.postedTime).toLocaleDateString("en-US", options) } 
             <br></br>
             <br></br>
@@ -98,12 +98,12 @@ class notifications extends Component {
                 &nbsp;  &nbsp;   &nbsp;  &nbsp;  &nbsp;   &nbsp;  &nbsp;  &nbsp;   &nbsp; &nbsp;  &nbsp;   &nbsp;
                 &nbsp;  &nbsp;   &nbsp;  &nbsp;  &nbsp;   &nbsp;  &nbsp;  &nbsp;   &nbsp; &nbsp;  &nbsp;   &nbsp;
                 <span style={{left :"200px", right: "1px" }}> Mark all read </span> </p>
-                </div> 
+                
                 <hr/>
                 
                 
                      {notifications}
-              
+                     </div> 
           </div>
           );
     }

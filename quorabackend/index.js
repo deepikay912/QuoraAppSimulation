@@ -362,7 +362,29 @@ const storagepic2 = multer.diskStorage({
                 question.save().
                 then(response=>{
 
-
+                    for(var i in question.Followers) {
+                        //    console.log("email" + email);
+        
+                                Model.UserModel.findOne({"Email": question.Followers[i]},(err,user) => {
+                                    console.log("in followers");
+                                    console.log(question.Followers[i]);
+        
+                                    if(user) {
+                                    var notification = {
+                                        answerOwner : req.body.owner,
+                                        question :  question,
+                                        action : 'answer',
+                                        postedTime : new Date(),
+                                        read : false
+                                    }
+                                
+                                    user.notifications = user.notifications || [];
+                                    user.notifications.push(notification);
+                                    user.save()
+                                }
+                                })
+                        }
+                        
                     var activity = Model.ActivityModel ({
                         action : "answer",
                         owner_email : req.body.owner,

@@ -12,6 +12,7 @@ import Model from '../Modal/Model'
 import axios from 'axios'
 import Search from './Search.js'
 import Select from 'react-select'
+import {rooturl} from '../../config/settings';
 
 //import console = require('console');
 const topics = [
@@ -65,6 +66,21 @@ export default class Header extends Component {
     handleTopic=(e)=>{
       this.setState({topic:e.target.value})
     }
+
+
+    signOut =(e) => {
+      console.log("Logging out1");
+      localStorage.removeItem('name');
+      localStorage.removeItem('email');
+      localStorage.removeItem('token');
+      localStorage.removeItem('credential');
+
+     window.location.href = 'http://'+rooturl+':3000'
+
+
+
+  }
+
     addQuestion=()=>
     {
       console.log("Inside add question with topics"+this.state.topics)
@@ -79,7 +95,7 @@ export default class Header extends Component {
         }
         console.log(data)
       
-      axios.post('http://localhost:4000/createQuestion/',data)
+      axios.post('http://'+rooturl+':4000/createQuestion/',data)
       .then(response=>{
       this.setState({ show: false });
       window.location.reload();
@@ -197,13 +213,19 @@ About ·
                
                 <li class="nav-item">
                   <div className = "col-sm-1" align ="center">   
-                    <button type="button" class="btn btn-danger" align = "right" style={{"fontSize":"small", marginTop: 5.5}} onClick={this.handleShow}> Add Question or Link</button>            
+                    <button type="button" class="btn btn-danger" align = "right" style={{"fontSize":"small", marginTop: 5.5}} onClick={this.handleShow}> Add Question or Link</button> 
+                    </div>
+                    <div className = "col-sm-1" align ="center">     
+                    <button  type="button" class="btn btn-danger" align = "right" style={{"fontSize":"small", marginTop: 5.5}} variant="primary" onClick={this.signOut}>
+                        Logout
+                    </button>        
                   </div> 
                 </li>  
     
                 <Modal show={this.state.show} onHide={this.handleClose}>
                   <Modal.Header closeButton>
                     <Modal.Title style={{"color":"#b92b27","font-weight":500,"font-family":"Helvetica Neue,Helvetica,Arial,sans-serif","font-size": "15px"}}>Add Question</Modal.Title>
+
                   </Modal.Header>
                   <Modal.Body>
                     <input type="text" placeholder="Start your question with What , How , Why" onChange={this.handleQuestion}></input>
@@ -227,6 +249,8 @@ About ·
                     <Button variant="primary" onClick={this.addQuestion}>
                         Add Question
                     </Button>
+
+                    
                   </Modal.Footer>
                 </Modal>
 
