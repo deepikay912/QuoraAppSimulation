@@ -5,6 +5,7 @@ import  CanvasJSReact from '../../canvasjs/canvasjs.react';
 import {rooturl} from '../../config/settings';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import {Redirect} from 'react-router';
 
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -84,6 +85,11 @@ class Dashboard extends Component {
     }
 
     render() { 
+        var redirectVar = null;
+  if(!localStorage.getItem('token')){
+    redirectVar = <Redirect to="/" />
+    return redirectVar;        
+   }
 
     console.log("graph3");
 
@@ -286,77 +292,3 @@ class Dashboard extends Component {
 }
  
 export default Dashboard;
-
-
-// <div>
-// <Header/>
-//      <div class="row">
-//          <div class="col-md-3">
-//          <button  style={{width : "200px"}}  class="graphbtn btn-default btn-lg"  value ="Upvotes"> <i class="fa fa-arrow-up fa-md"></i> &nbsp; UPVOTES</button>
-    
-// <div   class="col-md-3" class = "graph1"  style = { { left : "200px", top : "100px" ,width : "300px"}  }>
- 
-// <CanvasJSChart options = {options}
-// onRef={ref => this.chart = ref} />
-
-
-// <CanvasJSChart options = {options}
-// onRef={ref => this.chart = ref} />
-        
-//         </div>
-
-//         <div   class="col-md-7" class = "graph1"  style = { { left : "200px", top : "100px" ,width : "300px"}  }>
- 
-//         <CanvasJSChart options = {options}
-//         onRef={ref => this.chart = ref} />
-                   
-//                    </div>
-        
-//          </div>
-         
-//          <div class="col-md-5">
-//          <button  style={{width : "220px"}}  class="graphbtn btn-default btn-lg"  value ="Downvotes"> <i class="fa fa-arrow-down fa-md"></i> &nbsp; DOWNVOTES</button>
-//          </div>
-//          <div class="col-md-3">
-        
-//          </div>
-//      </div>
- 
-//   </div>
-
-
-// <div>
-// <Header/>
-//      <div class="row">
-//          <div class="col-md-3">
-//          <button  style={{width : "200px"}}  class="graphbtn btn-default btn-lg"  value ="Upvotes"> <i class="fa fa-arrow-up fa-md"></i> &nbsp; UPVOTES</button>
-    
-// <div   class="col-md-3" class = "graph1"  style = { { left : "200px", top : "100px" ,width : "300px"}  }>
- 
-// <CanvasJSChart options = {options}
-// onRef={ref => this.chart = ref} />
-
-
-// <CanvasJSChart options = {options}
-// onRef={ref => this.chart = ref} />
-        
-//         </div>
-
-//         <div   class="col-md-7" class = "graph1"  style = { { left : "200px", top : "100px" ,width : "300px"}  }>
- 
-//         <CanvasJSChart options = {options}
-//         onRef={ref => this.chart = ref} />
-                   
-//                    </div>
-        
-//          </div>
-         
-//          <div class="col-md-5">
-//          <button  style={{width : "220px"}}  class="graphbtn btn-default btn-lg"  value ="Downvotes"> <i class="fa fa-arrow-down fa-md"></i> &nbsp; DOWNVOTES</button>
-//          </div>
-//          <div class="col-md-3">
-        
-//          </div>
-//      </div>
- 
-//   </div>

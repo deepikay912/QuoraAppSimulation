@@ -9,6 +9,7 @@ import { Redirect } from 'react-router';
 import Header from '../Header/Header';
 import {Link} from 'react-router-dom';
 
+
 class DeleteAccount extends Component{
  
     deleteUser = (e) => {
@@ -26,6 +27,11 @@ class DeleteAccount extends Component{
 
   
   render(){
+    var redirectVar = null;
+  if(!localStorage.getItem('token')){
+    redirectVar = <Redirect to="/" />
+    return redirectVar;        
+   }
 
     
     return(

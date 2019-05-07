@@ -4,6 +4,7 @@ import quora from '../../images/QuoraLogo.png';
 import { Link } from 'react-router-dom';
 import Notifications from '../Notifications/notification';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import {Redirect} from 'react-router';
 
 
 
@@ -113,6 +114,11 @@ export default class Header extends Component {
     }
   
     render() {
+      var redirectVar = null;
+  if(!localStorage.getItem('token')){
+    redirectVar = <Redirect to="/" />
+    return redirectVar;        
+   }
 
       let lt = null
       if(this.state.topics.length>0)

@@ -131,9 +131,7 @@ import axios from 'axios';
     console.log(data);
 
 
-axios.post(ROOT_URL +`/updateProfile/${this.state.Email}`,  data, {
-    headers: {"Authorization" : `Bearer ${localStorage.getItem('token')}`}
-}).then((response) => {
+axios.post(ROOT_URL +`/updateProfile/${this.state.Email}`,  data).then((response) => {
  var  data = response.data;
  console.log(  "   Pushing data   " + response.data   );
   //update the state with the response data
@@ -169,6 +167,11 @@ componentWillMount()
 
 
   render(){
+    var redirectVar = null;
+  if(!localStorage.getItem('token')){
+    redirectVar = <Redirect to="/" />
+    return redirectVar;        
+   }
     let warning =  null
     if(this.state.validZipcode === false)
     {
@@ -372,4 +375,3 @@ componentWillMount()
     
       </div>
 */
-

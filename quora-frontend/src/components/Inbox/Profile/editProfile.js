@@ -149,6 +149,7 @@ componentWillMount()
 
 
   render(){
+    
     var redirectVar = null;
     if(!localStorage.getItem('token')){
       redirectVar = <Redirect to="/" />

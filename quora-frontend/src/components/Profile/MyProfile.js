@@ -8,6 +8,7 @@ import Header from '../Header/Header';
 //import Modal from '../Modal/Modal';
 import UserAnswers  from './UserAnswers';
 import { Link } from 'react-router-dom';
+import {Redirect} from 'react-router';
 
 export default class ProfileNav extends Component {
     constructor(props){
@@ -173,6 +174,11 @@ export default class ProfileNav extends Component {
     
 
     render() {
+      var redirectVar = null;
+  if(!localStorage.getItem('token')){
+    redirectVar = <Redirect to="/" />
+    return redirectVar;        
+   }
         let topics = [];
         Object.assign(topics, this.state.Topics);
         console.log(topics);

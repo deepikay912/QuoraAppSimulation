@@ -267,6 +267,11 @@ return (
 
 
     render(){
+        var redirectVar = null;
+  if(!localStorage.getItem('token')){
+    redirectVar = <Redirect to="/" />
+    return redirectVar;        
+   }
     
         return(
             <div>

@@ -60,6 +60,11 @@ class SignUp extends Component{
     }
   }
   render(){
+    var redirectVar = null;
+  if(!localStorage.getItem('token')){
+    redirectVar = <Redirect to="/" />
+    return redirectVar;        
+   }
     let redirectvar = null;
     if(this.state.login === true){
       redirectvar = <Redirect to='/' />

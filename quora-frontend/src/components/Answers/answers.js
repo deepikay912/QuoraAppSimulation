@@ -211,6 +211,13 @@ class answer extends Component {
 //return(<img src={this.state.img}/>)
       }
     render() { 
+        var redirectVar = null;
+  if(!localStorage.getItem('token')){
+    redirectVar = <Redirect to="/" />
+    return redirectVar;        
+   }
+       
+       
         let redirectvar = null
         if(this.state.redirectToMyAnswersPage === true)
             redirectvar = <Redirect to="/newsfeed" />

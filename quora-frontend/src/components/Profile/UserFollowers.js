@@ -7,6 +7,7 @@ import axios from 'axios';
 import Header from '../Header/Header';
 import Modal from '../Modal/Model';
 import UserQuestions  from './UserQuestions';
+import {Redirect} from 'react-router';
 
 export default class ProfileNav extends Component {
     constructor(props){
@@ -171,7 +172,11 @@ export default class ProfileNav extends Component {
     
 
     render() {
-
+      var redirectVar = null;
+      if(!localStorage.getItem('token')){
+        redirectVar = <Redirect to="/" />
+        return redirectVar;        
+       }
 
         return(
             <div>

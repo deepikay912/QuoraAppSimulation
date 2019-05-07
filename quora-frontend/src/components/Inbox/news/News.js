@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
-
+import {Redirect} from 'react-router';
 import '../news/News.css'
 class News extends Component {
     state = {  
@@ -51,7 +51,11 @@ class News extends Component {
 
 
     render() { 
- 
+        var redirectVar = null;
+        if(!localStorage.getItem('token')){
+          redirectVar = <Redirect to="/" />
+          return redirectVar;        
+         }
         
         /*Display Answers dynamically*/
         let displayCards = this.state.news.map((question,i)=>{
